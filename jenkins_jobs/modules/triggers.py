@@ -882,8 +882,7 @@ def build_token(parser, xml_parent, data):
     # The plugin requires a token
     if 'token' not in data:
         raise JenkinsJobsException('token must be set')
-    parent = xml_parent.getparent()
-    bt = XML.SubElement(parent, 'authToken')
+    bt = XML.SubElement(xml_parent, 'authToken')
     bt.text = data.get('token')
 
 
