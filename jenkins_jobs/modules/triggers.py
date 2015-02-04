@@ -866,6 +866,27 @@ def script(parser, xml_parent, data):
     XML.SubElement(st, 'exitCode').text = str(data.get('exit-code', 0))
 
 
+def build_token(parser, xml_parent, data):
+    """yaml: build-token
+    Trigger a job when a URL is called with a valid token.
+    Requires the Jenkins `Build Token Root Plugin.
+    <https://wiki.jenkins-ci.org/display/JENKINS/Build+Token+Root+Plugin>`_
+
+    Example::
+
+      triggers:
+        - build-token:
+          token: tacotuesday
+    """
+
+    # The plugin requires a token
+    if 'token' not in data:
+        raise JenkinsJobsException('token must be set')
+    parent = xml_parent.getparent()
+    bt = XML.SubElement(parent, 'authToken')
+    bt.text = data.get('token')
+
+
 class Triggers(jenkins_jobs.modules.base.Base):
     sequence = 50
 
